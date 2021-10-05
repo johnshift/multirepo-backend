@@ -8,12 +8,33 @@ jobs:
   run-tests:
     name: Run Test
     runs-on: ubuntu-latest
+    env:
+      DB_NAME: test
+      DB_USER: dev1
+      DB_PASS: pass1
     steps:
-      - name: Execute Tests
+      - name: Checkout API Branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'dev'
+
+      - name: Setup PostgreSQL
         run: |
-          echo "Running Tests ..."
-          sleep 10
-          echo "Tests PASSED"
+          sudo service postgresql start
+          sudo -u postgres psql -c "CREATE DATABASE ${{ env.DB_NAME }}"
+          sudo -u postgres psql -c "CREATE USER ${{ env.DB_USER }} WITH ENCRYPTED PASSWORD '${{ env.DB_PASS }}'"
+          sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE ${{ env.DB_NAME }} TO ${{ env.DB_USER }}"          
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'maven'
+
+      - name: Run Unit + Integration Tests
+        working-directory: ./api
+        run: 'mvn clean install'
 
   merge-to-main:
     name: Merge dev branch to main
