@@ -1,4 +1,4 @@
-name: DEV CI
+name: Tests
 on:
   push:
     branches: [dev]

@@ -1,7 +1,9 @@
-name: Main CI
+name: Dispatch
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    
 
 jobs:
 
@@ -15,4 +17,4 @@ jobs:
           token: ${{ secrets.PAT }}
           repository: johnshift/multirepo-cicd
           event-type: backend-main
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "ref-repo": "${{ github.repository }}"}'
