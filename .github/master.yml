@@ -1,0 +1,15 @@
+name: Master CI
+on:
+  push:
+    branches: [master]
+
+steps:
+
+  trigger-workflow:
+    name: Trigger Workflow of Main Repo
+    uses: peter-evans/repository-dispatch@v1
+    with:
+      token: ${{ secrets.PAT }}
+      repository: johnshift/multirepo-cicd
+      event-type: backend-master
+      client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
