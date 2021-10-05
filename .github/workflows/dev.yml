@@ -3,7 +3,7 @@ on:
   push:
     branches: [dev]
 
-steps:
+jobs:
 
   run-tests:
     name: Run Test

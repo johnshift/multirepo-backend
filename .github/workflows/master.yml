@@ -3,13 +3,16 @@ on:
   push:
     branches: [master]
 
-steps:
+jobs:
 
   trigger-workflow:
-    name: Trigger Workflow of Main Repo
-    uses: peter-evans/repository-dispatch@v1
-    with:
-      token: ${{ secrets.PAT }}
-      repository: johnshift/multirepo-cicd
-      event-type: backend-master
-      client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+    name: Trigger Workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workflow of Main Repo
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT }}
+          repository: johnshift/multirepo-cicd
+          event-type: backend-master
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
