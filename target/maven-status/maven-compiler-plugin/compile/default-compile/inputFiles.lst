@@ -1,0 +1,9 @@
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/UserException.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/User.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/ApiApplication.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/UserController.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/UserRepository.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/UserService.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/exceptions/ErrorDto.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/exceptions/ApiExceptionHandler.java
+/home/hanscem/johnshift/multirepo-backend/src/main/java/io/cloaked/api/user/UserDto.java
