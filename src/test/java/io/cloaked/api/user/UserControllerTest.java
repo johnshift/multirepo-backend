@@ -8,13 +8,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,6 +38,9 @@ public class UserControllerTest {
 
   User user = Generate.user();
   List<User> users = Generate.users();
+
+  @Autowired
+  ObjectMapper jsonMapper = new ObjectMapper();
 
   @Test
   public void get_users_OK() throws Exception {
@@ -96,10 +100,14 @@ public class UserControllerTest {
   public void post_user_OK() throws Exception {
 
     when(svc.createUser(any())).thenReturn(user);
+    String requestBody = jsonMapper.writeValueAsString(user);
 
-    mockMvc.perform(post("/users"))
+    mockMvc.perform(post("/users")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(requestBody))
+      
 
-    .andExpect(status().isOk())
+    .andExpect(status().isCreated())
     .andExpect(jsonPath("$.id").value(user.getId()))
     .andExpect(jsonPath("$.username").value(user.getUsername()))
     .andExpect(jsonPath("$.password").value(user.getPassword()));
