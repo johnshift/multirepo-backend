@@ -33,7 +33,7 @@ jobs:
           cache: 'maven'
 
       - name: Run Unit + Integration Tests
-        working-directory: ./api
+        working-directory: ./backend
         run: 'mvn clean install'
 
   merge-to-main:
