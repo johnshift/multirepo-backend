@@ -6,6 +6,7 @@ import java.util.List;
 import org.jeasy.random.EasyRandom;
 
 import io.cloaked.api.user.User;
+import io.cloaked.api.user.UserDto;
 
 public class Generate {
   
@@ -23,6 +24,13 @@ public class Generate {
     user.setId(Math.abs(random.nextLong()));
 
     return Arrays.asList(user);
+  }
+
+  public static UserDto userDto() {
+    UserDto user = random.nextObject(UserDto.class);
+    user.setId(Math.abs(random.nextLong()));
+
+    return user;
   }
 
 }

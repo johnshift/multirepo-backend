@@ -1,8 +1,10 @@
 package io.cloaked.api.user;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -88,6 +90,19 @@ public class UserControllerTest {
     .andExpect(jsonPath("$.type").value(ApiExceptionHandler.INVALID_TYPE))
     .andExpect(jsonPath("$.message").value(ApiExceptionHandler.INVALID_TYPE_MSG))
     .andExpect(jsonPath("$.timestamp").exists());
+  }
+
+  @Test
+  public void post_user_OK() throws Exception {
+
+    when(svc.createUser(any())).thenReturn(user);
+
+    mockMvc.perform(post("/users"))
+
+    .andExpect(status().isOk())
+    .andExpect(jsonPath("$.id").value(user.getId()))
+    .andExpect(jsonPath("$.username").value(user.getUsername()))
+    .andExpect(jsonPath("$.password").value(user.getPassword()));
   }
 
 }

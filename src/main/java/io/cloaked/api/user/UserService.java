@@ -23,4 +23,13 @@ public class UserService {
         .orElseThrow(() -> new UserException(UserException.NOT_FOUND));
   }
 
+  public User createUser(UserDto dto) {
+
+    User user = new User();
+    user.setUsername(dto.getUsername());
+    user.setPassword(dto.getPassword());
+
+    return userRepo.save(user);
+  }
+
 }

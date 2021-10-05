@@ -2,6 +2,7 @@ package io.cloaked.api.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ public class UserServiceTest {
 
   private final User user = Generate.user();
   private final List<User> users = Generate.users();
+  private final UserDto userDto = Generate.userDto();
 
   @Test
   public void getUsers_OK() {
@@ -57,6 +59,22 @@ public class UserServiceTest {
     when(userRepo.findById(anyLong())).thenThrow(UserException.class);
 
     assertThrows(UserException.class, () -> svc.getUserById(0L));
+  }
+
+  @Test
+  public void createUser_OK() {
+    when(userRepo.save(any())).thenReturn(user);
+    UserDto req = new UserDto(
+      user.getId(), user.getUsername(), user.getPassword()
+    );
+
+    User result = svc.createUser(req);
+
+    assertEquals(user.getId(), result.getId());
+    assertEquals(user.getUsername(), result.getUsername());
+    assertEquals(user.getPassword(), result.getPassword());
+
+
   }
 
 
