@@ -3,6 +3,10 @@ on:
   push:
     branches: [dev]
 
+concurrency:
+  group: backend
+  cancel-in-progress: true
+
 jobs:
 
   run-tests:
@@ -35,19 +39,15 @@ jobs:
       - name: Run Unit + Integration Tests
         run: 'mvn clean install'
 
-  merge-to-main:
-    name: Merge dev branch to main
-    runs-on: ubuntu-latest
+  trigger-workflow:
+    name: Trigger Workflow
     needs: [run-tests]
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Branch
-        uses: actions/checkout@v2
+      - name: Trigger Workflow of Main Repo
+        uses: peter-evans/repository-dispatch@v1
         with:
-          fetch-depth: 0
           token: ${{ secrets.PAT }}
-      - uses: fregante/setup-git-user@v1
-      - name: Merge
-        run: |
-          git checkout main
-          git merge dev --commit -m 'merge dev -> main'
-          git push origin main
+          repository: johnshift/multirepo-cicd
+          event-type: backend
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "ref-repo": "${{ github.repository }}"}'
