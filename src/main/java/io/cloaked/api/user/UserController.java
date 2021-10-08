@@ -3,6 +3,7 @@ package io.cloaked.api.user;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,17 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+
+  @Value("${FRONTEND_URL:not_assigned}")
+  private String FrontendURL;
   
   private final UserService svc;
+
+  @GetMapping("/env")
+  public String handleGetEnv() {
+
+    return "FRONTEND_URL = " + FrontendURL;
+  }
 
   @GetMapping("/users")
   public List<UserDto> handleGetUsers() {

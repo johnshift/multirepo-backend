@@ -28,7 +28,6 @@ public class UserServiceTest {
 
   private final User user = Generate.user();
   private final List<User> users = Generate.users();
-  private final UserDto userDto = Generate.userDto();
 
   @Test
   public void getUsers_OK() {
